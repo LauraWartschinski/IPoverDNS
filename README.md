@@ -38,8 +38,7 @@ So you need to create an A record for the sub-domain (tunnel.mydomain.com) that 
 
 And you need a NS recod that makes the dns sub-domain the authoritative name server for the tunnel sub domain. 
 
-``` tunnel IN NS dns.mydomain.com.
-```
+` tunnel IN NS dns.mydomain.com.`
 
 The result could look like this:
 
@@ -54,11 +53,9 @@ The result could look like this:
 
 To run iodine on your server, simply install the programm and run the server variation (mind the name: iodine'''d''')
 
-```$ sudo apt install iodine
-```
+``` $ sudo apt install iodine `
 
-```$ sudo iodined -f 10.0.0.1 -P 123456 tunnel.mydomain.com 
-```
+ $ sudo iodined -f 10.0.0.1 -P 123456 tunnel.mydomain.com  ```
 
 -f: run in foreground
 
@@ -78,13 +75,11 @@ To forward your traffic to the internet and make your server do NAT, you have to
 
 Enable packet forwarding:
 
-```echo 1 > /proc/sys/net/ipv4/ip_forward
-```
+` echo 1 > /proc/sys/net/ipv4/ip_forward `
 
 Make the setting persistent:
 
-```echo "net.ipv4.ip_forward=1" > /etc/sysctl.d/60-ipv4-forward.conf
-```
+` echo "net.ipv4.ip_forward=1" > /etc/sysctl.d/60-ipv4-forward.conf `
 
 Enable NAT by adding this to your IPTABLES:
 
@@ -94,13 +89,11 @@ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 iptables -t filter -A FORWARD -i eth0 -o dns0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 
 iptables -t filter -A FORWARD -i dns0 -o eth0 -j ACCEPT
-
 ```
 
 Make it persistent, e.g. like this:
 
-```iptables-save > /etc/iptables.rules
-```
+` iptables-save > /etc/iptables.rules `
 
 
 
@@ -110,10 +103,9 @@ Make it persistent, e.g. like this:
 
 It's important that client and server use the same iodine version. You install iodine on your client computer just as easily as on the server and start it with similar parameters. At the end, it should print "Connection setup complete, transmitting data."
 
-```$ sudo apt install iodine
-```
+``` $ sudo apt install iodine
 
-```$ sudo iodine -f -P 123456 tunnel.mydomain.com
+$ sudo iodine -f -P 123456 tunnel.mydomain.com
 ```
 
 #### Test tunnel
