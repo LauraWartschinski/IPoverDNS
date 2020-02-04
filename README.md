@@ -34,12 +34,11 @@ You have to register a subdomain, e.g. “tunnel.mydomain.com”. Also, you need
 
 So you need to create an A record for the sub-domain (tunnel.mydomain.com) that point to IP of the private server. 
 
-```dns IN A 1.2.3.4 
-```
+` dns IN A 1.2.3.4`
 
 And you need a NS recod that makes the dns sub-domain the authoritative name server for the tunnel sub domain. 
 
-```tunnel IN NS dns.mydomain.com. 
+``` tunnel IN NS dns.mydomain.com.
 ```
 
 The result could look like this:
