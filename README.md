@@ -139,7 +139,7 @@ Find out gateway:
 (in the most left column, you see the destination, in the column right to that, you see the gateway. Pick the one that isn't 0.0.0.0. This is our gateway IP.)
 
 Find out your tunnel interface:
-ifconfig -> look for something like dns0 that wasn’t there before
+ifconfig, look for something like dns0 that wasn’t there before
 
 Now modify the routes:
 
@@ -228,8 +228,7 @@ Another method for detecting DNS tunneling is to analyze the fully qualified dom
 
 Example for FQNs with tunneling:
 
-```
-0abbt82M-J2hbM->M-nYM-VAdM-?BM-KM->M-nWwM-bM-RcxbM->M-X5M-RM-mfM-dZkM-DaUM-UM-^TVXM->qGaM-VmgwM-faM->gdki5.a.tunnel.mydomain.com.
+```0abbt82M-J2hbM->M-nYM-VAdM-?BM-KM->M-nWwM-bM-RcxbM->M-X5M-RM-mfM-dZkM-DaUM-UM-^TVXM->qGaM-VmgwM-faM->gdki5.a.tunnel.mydomain.com.
 
 0ebbu82M-J2hbM->M-nYM-VAdM-?BM-UM->M-nWwM-fM-RM-LxbM->M-X5M-RM-mfM-d9ZJx6M-}M-dM-QM-byaiqaSgM-AMnM-^WydtM-we.M-ZG.tunnel.mydomain.com.
 
@@ -245,21 +244,12 @@ Example for FQNs with tunneling:
 
 
 Examples for normal FQNs:
-```
-
-img.washingtonpost.com.
-
+```img.washingtonpost.com.
 d1pz6dax0t5mop.cloudfront.net.
-
 ads.twitter.com.
-
 s0.2mdn.net.
-
 safebrowsing.google.com.
-
 www.google.com.
-
-
 ```
 
 We counted the number of resolved FQNs per 30s, the average number of unique characters in the FQNs and also the length of the FQNs. The differences between tunneling and "innocent" DNS traffic are obvious. It is therefore definitely possible to use some kind of analyzing software to detect DNS tunneling as we did with a simple python script.
