@@ -53,9 +53,11 @@ The result could look like this:
 
 To run iodine on your server, simply install the programm and run the server variation (mind the name: iodine**d**)
 
-``` $ sudo apt install iodine 
+```
+$ sudo apt install iodine 
 
- $ sudo iodined -f 10.0.0.1 -P 123456 tunnel.mydomain.com  ```
+$ sudo iodined -f 10.0.0.1 -P 123456 tunnel.mydomain.com
+```
 
 -f: run in foreground
 
