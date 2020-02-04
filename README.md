@@ -42,6 +42,8 @@ And you need a NS recod that makes the dns sub-domain the authoritative name ser
 
 The result could look like this:
 
+![DNS config](https://github.com/LauraWartschinski/IPoverDNS/blob/master/DNS.png)
+
 
 
 ### Iodine Server Setup 
@@ -94,6 +96,7 @@ Make it persistent, e.g. like this:
 <code>iptables-save > /etc/iptables.rules</code>
 
 
+
 ### Iodine Client Setup 
 
 #### install and start iodine
@@ -135,6 +138,8 @@ And if dns server and gateway don’t have the the same IP adress anyway:
 
 <code>route add -host [DNS server IP] gw [gateway IP]</code>
 
+![setup](https://github.com/LauraWartschinski/IPoverDNS/blob/master/setup.png)
+
 
 #### Put a ssh tunnel through the dns tunnel for encryption 
 
@@ -167,10 +172,17 @@ Set routes back to ‘normal’
 
 We tried out the principle and it worked fine. We actually did manage to circumvent the login portals of eduroam and two different Vodafone hotspots (located at S Adlershof and S Köpenick) as well as one Vodafone homespot. Here is some proof:
 
+![Adlershof](https://github.com/LauraWartschinski/IPoverDNS/blob/master/adlershof.jpg)
+![Adlershof](https://github.com/LauraWartschinski/IPoverDNS/blob/master/connected.jpg)
+![Adlershof](https://github.com/LauraWartschinski/IPoverDNS/blob/master/koepenick.jpg)
+![Adlershof](https://github.com/LauraWartschinski/IPoverDNS/blob/master/eduroam.jpg)
+
 
 ##  Speed 
 
 Of course, tunneling IP over DNS does not allow for a very impressive data rate. We checked the speed with online tools and found differing results, but mostly in the range of 10 to 400 kB/s. This was totally enough to load some less demanding websites, send out emails and even stream a video on youtube in low quality for a while.
+![speedtest](https://github.com/LauraWartschinski/IPoverDNS/blob/master/speedtest1.jpg)
+![speedtest](https://github.com/LauraWartschinski/IPoverDNS/blob/master/speedtest2.jpg)
 
 
 ## Methods to prevent dns tunneling 
