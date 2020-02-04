@@ -5,15 +5,13 @@ This is a small group project done in 'IT Security Workshop' at Humboldt Univers
 
 Firewalls for public wifi such as universities, airports, train stations, coffee shops or hotels often have restricting rules that prevent IP traffic before the user has logged in to the network, requiring a password, some payment or both before allowing access to the internet. But in many cases, DNS traffic to the local nameserver is not blocked. By setting up an authoritative nameserver for one's own subdomain, one can send DNS queries that will be transmitted to this outside DNS server, and therefore transmit data. It is possible to tunnel IP traffic encoded in DNS messages and therefore circumvent the restrictions of the network.
 
-![eduroam setup page](https://github.com/LauraWartschinski/IPoverDNS/blob/master/eduroamsetup.png)
-
-![Telekom hotspot page](https://github.com/LauraWartschinski/IPoverDNS/blob/master/telekomhotspot.png)
-
 
 ### How it works 
 
 A large part of the Wlan solutions in use is initially an open, unencrypted WLAN, which in most cases is named after the provider or the location or the hotel name. If the attacker, which at this point still acts as a normal customer, now works its network card to this WLAN and sends a DHCP request, it receives from the access point a local LAN-IP address.
 However, it can not receive and send packets, since a firewall on the access point drops all outward packets. (In detail, this means that the access point does not reject the connection by sending RST packets, but completely ignores the connection. For Iptables, this is equivalent to the "DROP" statement.) There is an exception to this categorical rejection these are connections on port 80 (HTTP). All HTTP requests are intercepted by the access point via a transparent HTTP proxy and the requests are transferred to a web page of the Wlan provider. The normal customer notices this by entering the browser, entering an arbitrary domain, and instead of the expected website, the web page of the provider appears, usually with a login option and instructions for payment.
+
+![eduroam setup page](https://github.com/LauraWartschinski/IPoverDNS/blob/master/eduroamsetup.png) ![Telekom hotspot page](https://github.com/LauraWartschinski/IPoverDNS/blob/master/telekomhotspot.png)
 
 
 But the client can still communicate with the local DNS server. DNS, the service that resolves domain names into IP addresses, is integrated into the access point for most of the wisans. And for all tested wlans, it also resolves names for non-authentic clients, so you can already send DNS queries before paying or logging in. And since the DNS server needs to communicate with other DNS servers out there, a communication channel is created that can be used for tunneling.
@@ -21,6 +19,8 @@ But the client can still communicate with the local DNS server. DNS, the service
 The attacker just needs to set up their own domain (say, "mydomain.com") with their own authoritative nameserver that resolves queries for "anysubdomain.mydomain.com". Now, when the DNS resolver of the restricted network gets a request for those subdomains, it sends the request to the authoritative nameserver. Encoded in this request, more specifically, in the subdomain, is the IP packet that goes out. The autoritative nameserver can access the internet himself, acting as a proxy, get the answer and encode it in a DNS NULL or TXT or any other large DNS record type, and send it back to the DNS resolver which will hand the answer to the client. Now the client has sucessfully communicated with the outside world. To conclude, a user needs both a server and a client that communicate through DNS messages under his control, the client being e.g. his laptop in the coffee shop and the server being online somewhere with regular internet access.
 
 This principle is implemented in software such as iodine (http://code.kryo.se/iodine/), which runs on Linux, Mac OS X, FreeBSD, NetBSD, OpenBSD and Windows. You need nothing more than iodine and your own webserver to start tunneling IP over DNS.
+
+![basic principle of IP over DNS](https://github.com/LauraWartschinski/IPoverDNS/blob/master/IPoverDNSPrinciple.png)
 
 ## Instructions 
 
