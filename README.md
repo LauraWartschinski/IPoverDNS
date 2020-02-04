@@ -51,9 +51,9 @@ The result could look like this:
 #### install and start iodine
 
 
-To run iodine on your server, simply install the programm and run the server variation (mind the name: iodine'''d''')
+To run iodine on your server, simply install the programm and run the server variation (mind the name: iodine**d**)
 
-``` $ sudo apt install iodine `
+``` $ sudo apt install iodine 
 
  $ sudo iodined -f 10.0.0.1 -P 123456 tunnel.mydomain.com  ```
 
@@ -110,10 +110,7 @@ $ sudo iodine -f -P 123456 tunnel.mydomain.com
 
 #### Test tunnel
 
-Now it's time to test the tunnel. Run this on your client to see if you can reach the server through the tunnel.
-
-```$ ping 10.0.0.1
-```
+Now it's time to test the tunnel. Run this on your client to see if you can reach the server through the tunnel. ` $ ping 10.0.0.1 `
 
 #### Set up routes to go through the tunnel
 
@@ -121,10 +118,12 @@ Finally, the routes have to be set so that per default packets send through the 
 
 Find out dns server: 
 `$ nmcli dev show | grep DNS`
+
 (This is our DNS server IP).
 
 Find out gateway:
 `$ netstat -rn|egrep "^0.0.0.0"`
+
 (in the most left column, you see the destination, in the column right to that, you see the gateway. Pick the one that isn't 0.0.0.0. This is our gateway IP.)
 
 Find out your tunnel interface:
@@ -140,7 +139,7 @@ And if dns server and gateway don’t have the the same IP adress anyway:
 
 `route add -host [DNS server IP] gw [gateway IP]`
 
-![setup](https://github.com/LauraWartschinski/IPoverDNS/blob/master/setup.png)
+![setup](https://github.com/LauraWartschinski/IPoverDNS/blob/master/Setup.png)
 
 
 #### Put a ssh tunnel through the dns tunnel for encryption 
@@ -148,13 +147,9 @@ And if dns server and gateway don’t have the the same IP adress anyway:
 Iodine doesn't encrypt its data per default. To do that, you need to put a ssh tunnel through the dns tunnel.
  
 
-```$ ssh -D 5000 -N root@10.0.0.1
-```
-
-```$ curl --socks5-hostname 127.0.0.1:5000 http://httpbin.org/ip
-```
-
-```$ google-chrome --proxy-server="socks5://127.0.0.1:5000" http://httpbin.org/ip
+``` $ ssh -D 5000 -N root@10.0.0.1
+$ curl --socks5-hostname 127.0.0.1:5000 http://httpbin.org/ip
+$ google-chrome --proxy-server="socks5://127.0.0.1:5000" http://httpbin.org/ip
 ```
 
 
@@ -182,14 +177,14 @@ We tried out the principle and it worked fine. We actually did manage to circumv
 ![Adlershof](https://github.com/LauraWartschinski/IPoverDNS/blob/master/adlershof.jpg)
 ![Adlershof](https://github.com/LauraWartschinski/IPoverDNS/blob/master/connected.jpg)
 ![Adlershof](https://github.com/LauraWartschinski/IPoverDNS/blob/master/koepenick.jpg)
-![Adlershof](https://github.com/LauraWartschinski/IPoverDNS/blob/master/eduroam.jpg)
+![Adlershof](https://github.com/LauraWartschinski/IPoverDNS/blob/master/eduroam.png)
 
 
 ##  Speed 
 
 Of course, tunneling IP over DNS does not allow for a very impressive data rate. We checked the speed with online tools and found differing results, but mostly in the range of 10 to 400 kB/s. This was totally enough to load some less demanding websites, send out emails and even stream a video on youtube in low quality for a while.
-![speedtest](https://github.com/LauraWartschinski/IPoverDNS/blob/master/speedtest1.jpg)
-![speedtest](https://github.com/LauraWartschinski/IPoverDNS/blob/master/speedtest2.jpg)
+![speedtest](https://github.com/LauraWartschinski/IPoverDNS/blob/master/speedtest1.png)
+![speedtest](https://github.com/LauraWartschinski/IPoverDNS/blob/master/speedtest2.png)
 
 ## Methods to prevent dns tunneling 
 
@@ -211,10 +206,10 @@ See the following graphs for a comparison between normal DNS load (blue) and DNS
 
 Another method for detecting DNS tunneling is to analyze the fully qualified domain names (FQNs) that are resolved. Usually, domain names have somewhat meaningfull names like yourshop24.com or mywebsite.net. The fully qualified domain names that are resolved for the tunneling are very long and very arbitrary, containing a combination of many letters and numbers. We recorded the resolved FQNs, the following examples should illustrate the point.
 
-
 Example for FQNs with tunneling:
 
-```0abbt82M-J2hbM->M-nYM-VAdM-?BM-KM->M-nWwM-bM-RcxbM->M-X5M-RM-mfM-dZkM-DaUM-UM-^TVXM->qGaM-VmgwM-faM->gdki5.a.tunnel.mydomain.com.
+```
+0abbt82M-J2hbM->M-nYM-VAdM-?BM-KM->M-nWwM-bM-RcxbM->M-X5M-RM-mfM-dZkM-DaUM-UM-^TVXM->qGaM-VmgwM-faM->gdki5.a.tunnel.mydomain.com.
 
 0ebbu82M-J2hbM->M-nYM-VAdM-?BM-UM->M-nWwM-fM-RM-LxbM->M-X5M-RM-mfM-d9ZJx6M-}M-dM-QM-byaiqaSgM-AMnM-^WydtM-we.M-ZG.tunnel.mydomain.com.
 
