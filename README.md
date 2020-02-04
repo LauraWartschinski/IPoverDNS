@@ -196,7 +196,8 @@ The first method to prevent dns tunneling would be to block dns requests, so tha
 
 ### Tunneling Detection 
 
-Tunneling of IP traffic over DNS results in unusual DNS traffic that can be spotted.
+Tunneling of IP traffic over DNS results in unusual DNS traffic that can be spotted. We used a simple, primitive ![ids](https://github.com/LauraWartschinski/IPoverDNS/blob/master/ids.py) to see if we can spot the tunnel.
+
 Implementations tend to use DNS types that can have a lot of bytes per packet, e.g. the experimental "NULL" type. We see those only when we use iodine, in regular DNS traffic this type does not appear at all.
 
 ![chart of null messages](https://github.com/LauraWartschinski/IPoverDNS/blob/master/iodine-null.png)
