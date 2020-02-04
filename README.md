@@ -5,6 +5,10 @@ This is a small group project done in 'IT Security Workshop' at Humboldt Univers
 
 Firewalls for public wifi such as universities, airports, train stations, coffee shops or hotels often have restricting rules that prevent IP traffic before the user has logged in to the network, requiring a password, some payment or both before allowing access to the internet. But in many cases, DNS traffic to the local nameserver is not blocked. By setting up an authoritative nameserver for one's own subdomain, one can send DNS queries that will be transmitted to this outside DNS server, and therefore transmit data. It is possible to tunnel IP traffic encoded in DNS messages and therefore circumvent the restrictions of the network.
 
+![eduroam setup page](https://github.com/LauraWartschinski/IPoverDNS/blob/master/eduroamsetup.png)
+
+![Telekom hotspot page](https://github.com/LauraWartschinski/IPoverDNS/blob/master/telekomhotspot.png)
+
 
 ### How it works 
 
