@@ -129,13 +129,11 @@ Now it's time to test the tunnel. Run this on your client to see if you can reac
 Finally, the routes have to be set so that per default packets send through the dns tunnel, as they are "inner" packets in our tunneling. Only data going directly to the DNS resolver of the local, restricted network has to go directly there and not again in the tunnel, because those are the "outer" packets that have to be transmitted to the DNS resolver to transmitted to the outside world. To set up this, we delete the default route, add a new default route and add a route to the DNS resolver. We need to find out our standard gateway and our DNS resolver.
 
 Find out dns server: 
-```$ nmcli dev show | grep DNS
-```
+`$ nmcli dev show | grep DNS`
 (This is our DNS server IP).
 
 Find out gateway:
-```$ netstat -rn|egrep "^0.0.0.0"
-```
+`$ netstat -rn|egrep "^0.0.0.0"`
 (in the most left column, you see the destination, in the column right to that, you see the gateway. Pick the one that isn't 0.0.0.0. This is our gateway IP.)
 
 Find out your tunnel interface:
@@ -143,16 +141,13 @@ ifconfig, look for something like dns0 that wasn’t there before
 
 Now modify the routes:
 
-```$ route del default
-```
+`$ route del default`
 
-```$ route add default dns0
-```
+`$ route add default dns0`
 
 And if dns server and gateway don’t have the the same IP adress anyway:
 
-```route add -host [DNS server IP] gw [gateway IP]
-```
+`route add -host [DNS server IP] gw [gateway IP]`
 
 ![setup](https://github.com/LauraWartschinski/IPoverDNS/blob/master/setup.png)
 
@@ -253,6 +248,11 @@ www.google.com.
 ```
 
 We counted the number of resolved FQNs per 30s, the average number of unique characters in the FQNs and also the length of the FQNs. The differences between tunneling and "innocent" DNS traffic are obvious. It is therefore definitely possible to use some kind of analyzing software to detect DNS tunneling as we did with a simple python script.
+
+
+![](https://github.com/LauraWartschinski/IPoverDNS/blob/master/iodine-resolved.png)
+![](https://github.com/LauraWartschinski/IPoverDNS/blob/master/iodine-length.png)
+![](https://github.com/LauraWartschinski/IPoverDNS/blob/master/iodine-unique.png)
 
 ## Problems with Captive Portals 
 
