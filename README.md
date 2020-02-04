@@ -1,6 +1,5 @@
 # IPoverDNS
-using iodine to tunnel IP via DNS
-
+This is a small group project done in 'IT Security Workshop' at Humboldt University. We use iodine to tunnel DNS over IP networks, even in places where the network shouldn't allow access to the internet, monitor the results and gather some statistics.
 
 ## Introduction 
 
