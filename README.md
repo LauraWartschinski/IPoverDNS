@@ -105,7 +105,8 @@ Make it persistent, e.g. like this:
 
 It's important that client and server use the same iodine version. You install iodine on your client computer just as easily as on the server and start it with similar parameters. At the end, it should print "Connection setup complete, transmitting data."
 
-``` $ sudo apt install iodine
+```
+$ sudo apt install iodine
 
 $ sudo iodine -f -P 123456 tunnel.mydomain.com
 ```
@@ -149,7 +150,8 @@ And if dns server and gateway don’t have the the same IP adress anyway:
 Iodine doesn't encrypt its data per default. To do that, you need to put a ssh tunnel through the dns tunnel.
  
 
-``` $ ssh -D 5000 -N root@10.0.0.1
+```
+$ ssh -D 5000 -N root@10.0.0.1
 $ curl --socks5-hostname 127.0.0.1:5000 http://httpbin.org/ip
 $ google-chrome --proxy-server="socks5://127.0.0.1:5000" http://httpbin.org/ip
 ```
@@ -163,10 +165,9 @@ Stop iodine client on client and server
 
 Set routes back to ‘normal’
 
-```$ route del default
-```
-
-```$ route add default [gateway ip]
+``` 
+$ route del default
+$ route add default [gateway ip]
 ```
 
 ...or just restart your networking manually by using the network manager or restart the device entirely.
