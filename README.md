@@ -7,7 +7,7 @@ using iodine to tunnel IP via DNS
 Firewalls for public wifi such as universities, airports, train stations, coffee shops or hotels often have restricting rules that prevent IP traffic before the user has logged in to the network, requiring a password, some payment or both before allowing access to the internet. But in many cases, DNS traffic to the local nameserver is not blocked. By setting up an authoritative nameserver for one's own subdomain, one can send DNS queries that will be transmitted to this outside DNS server, and therefore transmit data. It is possible to tunnel IP traffic encoded in DNS messages and therefore circumvent the restrictions of the network.
 
 
-== How it works ==
+### How it works 
 
 A large part of the Wlan solutions in use is initially an open, unencrypted WLAN, which in most cases is named after the provider or the location or the hotel name. If the attacker, which at this point still acts as a normal customer, now works its network card to this WLAN and sends a DHCP request, it receives from the access point a local LAN-IP address.
 However, it can not receive and send packets, since a firewall on the access point drops all outward packets. (In detail, this means that the access point does not reject the connection by sending RST packets, but completely ignores the connection. For Iptables, this is equivalent to the "DROP" statement.) There is an exception to this categorical rejection these are connections on port 80 (HTTP). All HTTP requests are intercepted by the access point via a transparent HTTP proxy and the requests are transferred to a web page of the Wlan provider. The normal customer notices this by entering the browser, entering an arbitrary domain, and instead of the expected website, the web page of the provider appears, usually with a login option and instructions for payment.
@@ -19,12 +19,9 @@ The attacker just needs to set up their own domain (say, "mydomain.com") with th
 
 This principle is implemented in software such as iodine (http://code.kryo.se/iodine/), which runs on Linux, Mac OS X, FreeBSD, NetBSD, OpenBSD and Windows. You need nothing more than iodine and your own webserver to start tunneling IP over DNS.
 
+##Instructions 
 
-
-
-== Anleitung ==
-
-=== DNS Server Setup ===
+### DNS Server Setup 
 
 Setting up Iodine requires control over a real domain, and a server that is online and can act as iodine server. It has to run with a public IP that will function as nameserver for your domain managed by iodine.
 For your domain, e.g. "mydomain.com", you need to be able to register NS and A records. Several free domain providers offer this service.
@@ -44,9 +41,9 @@ The result could look like this:
 
 
 
-=== Iodine Server Setup ===
+### Iodine Server Setup 
 
-====install and start iodine====
+#### install and start iodine
 
 
 To run iodine on your server, simply install the programm and run the server variation (mind the name: iodine'''d''')
@@ -63,11 +60,11 @@ To run iodine on your server, simply install the programm and run the server var
 
 tunnel.mydomain.com: your tunnel subdomain
 
-==== Test server ====
+#### Test server 
 
 You can test your server setup by putting in the IP here: http://code.kryo.se/iodine/check-it/ 
 
-==== Configuring NAT and IP masquerading ====
+#### Configuring NAT and IP masquerading 
 
 To forward your traffic to the internet and make your server do NAT, you have to set this up.
 
@@ -94,9 +91,9 @@ Make it persistent, e.g. like this:
 <code>iptables-save > /etc/iptables.rules</code>
 
 
-=== Iodine Client Setup ===
+### Iodine Client Setup 
 
-====install and start iodine====
+#### install and start iodine
 
 It's important that client and server use the same iodine version. You install iodine on your client computer just as easily as on the server and start it with similar parameters. At the end, it should print "Connection setup complete, transmitting data."
 
@@ -104,13 +101,13 @@ It's important that client and server use the same iodine version. You install i
 
 <code>$ sudo iodine -f -P 123456 tunnel.mydomain.com</code>
 
-====Test tunnel====
+#### Test tunnel
 
 Now it's time to test the tunnel. Run this on your client to see if you can reach the server through the tunnel.
 
 <code>$ ping 10.0.0.1</code>
 
-====Set up routes to go through the tunnel====
+#### Set up routes to go through the tunnel
 
 Finally, the routes have to be set so that per default packets send through the dns tunnel, as they are "inner" packets in our tunneling. Only data going directly to the DNS resolver of the local, restricted network has to go directly there and not again in the tunnel, because those are the "outer" packets that have to be transmitted to the DNS resolver to transmitted to the outside world. To set up this, we delete the default route, add a new default route and add a route to the DNS resolver. We need to find out our standard gateway and our DNS resolver.
 
@@ -136,7 +133,7 @@ And if dns server and gateway don’t have the the same IP adress anyway:
 <code>route add -host [DNS server IP] gw [gateway IP]</code>
 
 
-==== Put a ssh tunnel through the dns tunnel for encryption ====
+#### Put a ssh tunnel through the dns tunnel for encryption 
 
 Iodine doesn't encrypt its data per default. To do that, you need to put a ssh tunnel through the dns tunnel.
  
@@ -149,7 +146,7 @@ Iodine doesn't encrypt its data per default. To do that, you need to put a ssh t
 
 
 
-=== Deactivating Iodine ===
+### Deactivating Iodine 
 
 Stop iodine client on client and server
 (just by pressing ctrl+c)
@@ -163,22 +160,22 @@ Set routes back to ‘normal’
 ...or just restart your networking manually by using the network manager or restart the device entirely.
 
 
-== Trying it out ==
+## Trying it out 
 
 We tried out the principle and it worked fine. We actually did manage to circumvent the login portals of eduroam and two different Vodafone hotspots (located at S Adlershof and S Köpenick) as well as one Vodafone homespot. Here is some proof:
 
 
-== Speed ==
+##  Speed 
 
 Of course, tunneling IP over DNS does not allow for a very impressive data rate. We checked the speed with online tools and found differing results, but mostly in the range of 10 to 400 kB/s. This was totally enough to load some less demanding websites, send out emails and even stream a video on youtube in low quality for a while.
 
 
-== Methods to prevent dns tunneling ==
+## Methods to prevent dns tunneling 
 
-=== Network architecture ===
+### Network architecture 
 The first method to prevent dns tunneling would be to block dns requests, so that the client that is not logged in yet can not resolve iodined dns request. It's up to the system administrator to design the rules so that this is the case. With some kind of DNS spoofing, the DNS resolver could only answer with the IP of the login screen /  captive portal and not even send out DNS requests to resolve them to other DNS servers. Problems with this approach are listed below.
 
-=== Tunneling Detection ===
+### Tunneling Detection 
 
 Tunneling of IP traffic over DNS results in unusual DNS traffic that can be spotted.
 Implementations tend to use DNS types that can have a lot of bytes per packet, e.g. the experimental "NULL" type. We see those only when we use iodine, in regular DNS traffic this type does not appear at all.
@@ -227,7 +224,7 @@ www.google.com.
 
 We counted the number of resolved FQNs per 30s, the average number of unique characters in the FQNs and also the length of the FQNs. The differences between tunneling and "innocent" DNS traffic are obvious. It is therefore definitely possible to use some kind of analyzing software to detect DNS tunneling as we did with a simple python script.
 
-== Problems with Captive Portals ==
+## Problems with Captive Portals ==
 
 
 Redirecting the user to the captive portal is basically a '''man in the middle''' attack. They use a HTTP protocol vulnerability to redirect users to their pages. Technically, they were never intended. There is no standard that describes their implementation.
