@@ -19,7 +19,7 @@ The attacker just needs to set up their own domain (say, "mydomain.com") with th
 
 This principle is implemented in software such as iodine (http://code.kryo.se/iodine/), which runs on Linux, Mac OS X, FreeBSD, NetBSD, OpenBSD and Windows. You need nothing more than iodine and your own webserver to start tunneling IP over DNS.
 
-##Instructions 
+## Instructions 
 
 ### DNS Server Setup 
 
@@ -224,7 +224,7 @@ www.google.com.
 
 We counted the number of resolved FQNs per 30s, the average number of unique characters in the FQNs and also the length of the FQNs. The differences between tunneling and "innocent" DNS traffic are obvious. It is therefore definitely possible to use some kind of analyzing software to detect DNS tunneling as we did with a simple python script.
 
-## Problems with Captive Portals ==
+## Problems with Captive Portals 
 
 
 Redirecting the user to the captive portal is basically a '''man in the middle''' attack. They use a HTTP protocol vulnerability to redirect users to their pages. Technically, they were never intended. There is no standard that describes their implementation.
